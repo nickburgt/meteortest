@@ -12,12 +12,12 @@
     <div id="Wrapper">
       <div id="messageContainer">
         <ul id="messageList">
-          <li>{{> messages}}</li>
+          {{> messages}}
         </ul>
       </div>
       <div id="users">
         <ul id="userlist">
-          <li>{{> users}}</li>
+          {{> users}}
         </ul>
       </div>
     </div>
@@ -31,8 +31,8 @@
 </template>
 
 <template name="messages">
-  {{#each messages}} {{time}} - <strong>{{name}}:</strong> {{message}}
-  <br> {{/each}}
+  {{#each messages}}<li> {{time}} - <strong>{{name}}:</strong> {{message}}</li>
+  {{/each}}
 </template>
 
 <template name="clear">
@@ -47,7 +47,7 @@
 
 
 <template name="users">
-  Current users: {{#each Usercollection}}
-  <strong>{{name}}</strong>
-  <br> {{/each}}
+  Current users: {{#each users}}
+  <li><strong>{{username}}</strong></li>
+  {{/each}}
 </template>

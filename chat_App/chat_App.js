@@ -1,5 +1,5 @@
 Messages = new Meteor.Collection('messages');
-Usercollection = new Meteor.Collection('userlist')
+Usercollection = Meteor.users;
 
 if (Meteor.isClient) {
     Template.messages.helpers({
@@ -9,8 +9,8 @@ if (Meteor.isClient) {
     });
 
     Template.users.helpers({
-        userlist: function () {
-            return Usercollection.find({}, { sort: { time: -1 } });
+        users: function () {
+            return Usercollection.find({}, { sort: { name: 1 } });
         }
     });
 
