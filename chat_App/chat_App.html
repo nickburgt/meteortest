@@ -1,0 +1,53 @@
+<head>
+  <title>Chat app</title>
+</head>
+
+<body>
+  <div class="container">
+    {{> loginButtons align="right"}}
+    <h1>The greatest chat app in the world!</h1> {{> welcome }}
+    <div id="inputContainer">
+      {{> input}} {{> clear}}
+    </div>
+    <div id="Wrapper">
+      <div id="messageContainer">
+        <ul id="messageList">
+          <li>{{> messages}}</li>
+        </ul>
+      </div>
+      <div id="users">
+        <ul id="userlist">
+          <li>{{> users}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+
+<template name="welcome">
+  <p>
+    Welcome to the chat app! please login to type in the chat or type without logging in as Anonymous.
+  </p>
+</template>
+
+<template name="messages">
+  {{#each messages}} {{time}} - <strong>{{name}}:</strong> {{message}}
+  <br> {{/each}}
+</template>
+
+<template name="clear">
+  <button class="clear">Clear</button>
+</template>
+
+<template name="input">
+  <p>Message:
+    <input type="text" id="message">
+  </p>
+</template>
+
+
+<template name="users">
+  Current users: {{#each Usercollection}}
+  <strong>{{name}}</strong>
+  <br> {{/each}}
+</template>
