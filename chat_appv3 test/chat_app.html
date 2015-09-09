@@ -53,7 +53,7 @@
                         <a href="#page-top"></a>
                     </li>
                     <li class="page-scroll">
-                        <a href="#portfolio">Start chatting</a>
+                        {{> startchatting}}
                     </li>
                     <li>
                         <a class="loginbutton">
@@ -113,7 +113,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
+                    <div id="messaging">
                     <h2>Send a Message!</h2>
+                    </div>
                     <hr class="star-primary">
                 </div>
             </div>
@@ -133,7 +135,7 @@
                         <div class="row">
                             <div class="form-group col-xs-12 btn-lg">
                                 <div class="wrapper2 btn-lg">
-                                <button type="submit" onclick="return false" class="btn btn-success btn-lg alignleft">Send</button>
+                                {{> sendbutton}}
                                 <div class="aligncenter">
                                  {{> images}}
                                  </div>
@@ -226,10 +228,10 @@
 </body>
 
 <template name="messages">
-  {{#each messages}}<li> {{time}} - <strong>{{name}}:</strong> {{message}}</li>{{/each}}
+  {{#each messages}}<li> {{time}} - <strong>{{name}}:</strong> {{message}} {{#if path}}<img src={{path}} width="50px" height="50px">{{/if}}</li>{{/each}}
   <!--{{#each uploads}}<li> {{time}} - <strong> {{name}}:</strong><img src={{path}}></li>
   {{/each}}-->
-  {{#each images}}<li> {{tijd}} - <strong>{{inlognaam}}:</strong> <img src={{this.url}} width="50px" height="50px"></li>{{/each}}
+  <!--{{#each images}}<li> {{tijd}} - <strong>{{inlognaam}}:</strong> <img src={{this.url}} width="50px" height="50px"></li>{{/each}}-->
 </template>
 
 <template name="clear">
@@ -256,8 +258,16 @@
     {{> upload_bootstrap }}
 </template>
 
+<template name="sendbutton">
+    <button type="submit" onclick="return false" class="btn btn-success btn-lg alignleft send">Send</button>
+</template>
+
 <!--<template name="uploads">
 {{#each uploads}}
 <img src={{path}}>
 {{/each}} 
 </template>-->
+
+<template name="startchatting">
+    <a href="#portfolio" class="Startchat">Start chatting</a>
+</template>

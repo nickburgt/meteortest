@@ -488,8 +488,9 @@ li {
 
 .alignright
 {
-    float: left;
+    float: right;
     display: flex;
+    
 }
 
 .aligncenter {
@@ -500,6 +501,7 @@ li {
 .alignleft {
     float: left;
     display: flex;
+    
 }
 
 .wrapper2 {

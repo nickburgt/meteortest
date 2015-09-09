@@ -8,11 +8,14 @@ if (Meteor.isClient) {
     Template.messages.helpers({
         messages: function () {
             return Messages.find({}, { sort: { time: -1 } });
+            
+        },
+
+        images: function () {
+            return Images.find({}, { sort: { uploadedAt: -1 } });
         },
         
-        images: function() {
-            return Images.find({}, {sort: { uploadedAt: -1} });
-        }
+        
     });
 
     Template.users.helpers({
@@ -20,22 +23,50 @@ if (Meteor.isClient) {
             return Usercollection.find({}, { sort: { name: 1 } });
         }
     });
-    
-   
-   
+
+
+
     Template.images.events({
-    'change .fileInput': function(event,template) {
-        FS.Utility.eachFile(event, function(file) {
-            var fileObj = new FS.File(file);
-            Images.insert(fileObj,function(err) {
-            if(Meteor.user())
-            Meteor.call("UpdateImages");
-            else
-            Meteor.call("UpdateImages2");
-            //Meteor.call("JoinCollections");
-    });   
+        'change .fileInput': function (event, template) {
+            FS.Utility.eachFile(event, function (file) {
+                var fileObj = new FS.File(file);
+                if(Meteor.user())
+                var naam = Meteor.user().username;
+                else
+                var naam = "Anonymous";
+                Images.insert(fileObj, function (err) {
+                    if (Meteor.user())
+                        Meteor.call("UpdateImages");
+                    else
+                        Meteor.call("UpdateImages2");
+                        
+                var interval = Meteor.setInterval( function() {
+                    if (fileObj.hasStored('images')) {
+                    Messages.insert({
+                    path: '/cfs/files/images/' + fileObj._id,
+                    time: (new Date).toTimeString().substr(0,8),
+                    name: naam,
+                    })
+                    Meteor.clearInterval(interval);
+                    }
+                    }, 50);
+                   // Messages.insert({
+                    //path: '/cfs/files/images/' + fileObj._id,
+                    //time: (new Date).toTimeString().substr(0,8),
+                   // name: naam,
+                  // })
+               });
+            });   
+        },
+       
     });
-    }
+    
+    Template.startchatting.events({
+        'click .Startchat': function() {
+        $('html,body').animate({
+        scrollTop: $('#portfolio').offset().top
+        }, 1000);
+        }
     });
 
     Template.input.events = {
@@ -60,6 +91,7 @@ if (Meteor.isClient) {
             }
         }
     }
+
     Accounts.ui.config({
         passwordSignupFields: "USERNAME_ONLY"
     });
@@ -73,22 +105,49 @@ if (Meteor.isClient) {
             if (username !== "admin")
                 alert("you need to be an admin to do this");
         }
-    });  
-   
+    });
+
+    Template.sendbutton.events({
+        "click .send": function () {
+        if (Meteor.user())
+        var name = Meteor.user().username;
+        else
+        var name = 'Anonymous';
+        var message = document.getElementById('message');
+        if (message.value != '') {
+        Messages.insert({
+        name: name,
+        message: message.value,
+        time: (new Date).toTimeString().substr(0, 8),
+        });
+
+        document.getElementById('message').value = '';
+        message.value = '';
+        }   
+        }
+    });
+    
+   // Template.messages.rendered = function () {
+       // Template.autorun(function () {
+        //var self = this;
+       // thisCampaign = Session.get('messages');
+        //})
+    //};
+
 }
 
 if (Meteor.isServer) {
     Images.allow({
-    'insert': function () {
-    // add custom authentication code here
-    return true;
-    },
-    
-    download:function(){
-    return true;
-    }
+        'insert': function () {
+            // add custom authentication code here
+            return true;
+        },
+
+        download: function () {
+            return true;
+        }
     }),
-    
+
     Meteor.methods({
         removeAllPosts: function () {
             var globalObject = Meteor.isClient ? window : global;
@@ -111,36 +170,36 @@ if (Meteor.isServer) {
             if (username == "admin")
                 return true;
         },
-        
-        findUser: function(username) {
-        return Meteor.users.findOne({
-        username: username
-        }, {
-        fields: { 'username': 1 }
-        });
+
+        findUser: function (username) {
+            return Meteor.users.findOne({
+                username: username
+            }, {
+                    fields: { 'username': 1 }
+                });
         },
-        
-        UpdateImages: function()
-        {
+
+        UpdateImages: function () {
             //morgen zorgen dat ie alleen de laatste pakt
-            var doc = Images.find({}, {sort: {uploadedAt: -1}, limit:1});    
-            Images.update({uploadedAt: doc.uploadedAt}, {$set:{inlognaam: Meteor.user().username}});
-            Images.update({uploadedAt: doc.uploadedAt}, {$set:{tijd: (new Date).toTimeString().substr(0,8)}});
+            var doc = Images.find({}, { sort: { uploadedAt: -1 }, limit: 1 });
+            Images.update({ uploadedAt: doc.uploadedAt }, { $set: { inlognaam: Meteor.user().username } });
+            Images.update({ uploadedAt: doc.uploadedAt }, { $set: { tijd: (new Date).toTimeString().substr(0, 8) } });
         },
-        
-        UpdateImages2: function()
-        {
-             //morgen zorgen dat ie alleen de laatste pakt  
-            var doc = Images.find({}, {sort: {uploadedAt: -1}, limit:1});    
-            Images.update({uploadedAt: doc.uploadedAt}, {$set:{inlognaam: "Anonymous"}});
-            Images.update({uploadedAt: doc.uploadedAt}, {$set:{tijd: (new Date).toTimeString().substr(0,8)}});
+
+        UpdateImages2: function () {
+            //morgen zorgen dat ie alleen de laatste pakt  
+            var doc = Images.find({}, { sort: { uploadedAt: -1 }, limit: 1 });
+            Images.update({ uploadedAt: doc.uploadedAt }, { $set: { inlognaam: "Anonymous" } });
+            Images.update({ uploadedAt: doc.uploadedAt }, { $set: { tijd: (new Date).toTimeString().substr(0, 8) } });
         },
-        
-       JoinCollections: function()
-        {
-            Messages.join("Images", "time", "time", ["uploadedAt"]);
+
+        JoinCollections: function () {
+            Messages.insert({
+            path: process.env.PWD,
+            time: (new Date).toTimeString().substr(0,8),
+            })
         }
-    }); 
+    });
 }     
        
     
