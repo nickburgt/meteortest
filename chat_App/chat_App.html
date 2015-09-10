@@ -71,7 +71,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <img src="https://cdn0.iconfinder.com/data/icons/creative-business-and-development/512/engagement_chat_social_media_speech_bubble_communication_message_online_dialog_sms_chatting_flat_design_icon-512.png">
+                    <img src="https://cdn4.iconfinder.com/data/icons/free-3d-social-icons/png/512x512/Orange%20forum.png">
                     <div class="intro-text">
                         <span class="name">Chatty</span>
                         <hr class="star-light">
@@ -126,7 +126,9 @@
                     <form name="sentMessage" id="contactForm" novalidate>
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
+                                {{#if currentUser}}
                                 {{> input}}
+                                {{/if}}
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
@@ -135,13 +137,19 @@
                         <div class="row">
                             <div class="form-group col-xs-12 btn-lg">
                                 <div class="wrapper2 btn-lg">
+                                    {{#if currentUser}}
                                     {{> sendbutton}}
                                     <div class="aligncenter">
                                         {{> images}}
                                     </div>
                                     <div class="alignright">
                                         {{> clear}}
-                                    </div>
+                                    </div> 
+                                    {{else}}
+                                    <div class="col-lg-12 text-center">
+                                   <h1> Sorry, you need to be logged in to send a message!</h1>
+                                   </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
@@ -229,7 +237,12 @@
 
 <template name="messages">
     {{#each messages}}
-    <li> {{time}} - <strong>{{name}}:</strong> {{message}} {{#if path}}<img src={{path}} width="50px" height="50px">{{/if}}</li>{{/each}}
+    {{#if equals name currentUser.username}}
+    <div class="bubble me">
+    {{time}} - <strong>{{name}}:</strong> {{message}} {{#if path}}<img src={{path}} width="50px" height="50px">{{/if}}</div><br>
+    {{else}}
+    <div class="bubble you">
+    {{time}} - <strong>{{name}}:</strong> {{message}} {{#if path}}<img src={{path}} width="50px" height="50px">{{/if}}</div><br>{{/if}}{{/each}}
     <!--{{#each uploads}}<li> {{time}} - <strong> {{name}}:</strong><img src={{path}}></li>
   {{/each}}-->
     <!--{{#each images}}<li> {{tijd}} - <strong>{{inlognaam}}:</strong> <img src={{this.url}} width="50px" height="50px"></li>{{/each}}-->
@@ -276,3 +289,13 @@
 <template name="chatty">
     <a class="navbar-brand chatty" href="#page-top">Chatty</a>
 </template>
+
+<template name="divselect">
+     <!--{{#if currentUser}}<div class="bubble me">{{else}}<div class="bubble you">{{/if}}</div>-->
+     {{#if currentUser}} 
+    <span>Hey {{currentUser.profile.firstName}}!</span>
+    {{else}}
+    <span>nobody's home</span>
+    {{/if}}
+</template>
+    
