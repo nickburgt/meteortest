@@ -10,7 +10,7 @@
 
     <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
     <link href="css/bootstrap.css" rel="stylesheet">
-    
+
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
@@ -43,7 +43,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#page-top">Chatty</a>
+                {{> chatty}}
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -93,19 +93,19 @@
             </div>
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    
-                        <div class="caption">
-                            <div class="caption-content">
-                               
-                            </div>
+
+                    <div class="caption">
+                        <div class="caption-content">
+
                         </div>
-                        <div class="msges">
+                    </div>
+                    <div class="msges">
                         {{> messages}}
                         <!--{{> uploads}}-->
-                        </div>
+                    </div>
                 </div>
-                </div>
-                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Contact Section -->
@@ -114,7 +114,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div id="messaging">
-                    <h2>Send a Message!</h2>
+                        <h2>Send a Message!</h2>
                     </div>
                     <hr class="star-primary">
                 </div>
@@ -135,13 +135,13 @@
                         <div class="row">
                             <div class="form-group col-xs-12 btn-lg">
                                 <div class="wrapper2 btn-lg">
-                                {{> sendbutton}}
-                                <div class="aligncenter">
-                                 {{> images}}
-                                 </div>
-                                 <div class="alignright">
-                                {{> clear}} 
-                                </div>
+                                    {{> sendbutton}}
+                                    <div class="aligncenter">
+                                        {{> images}}
+                                    </div>
+                                    <div class="alignright">
+                                        {{> clear}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -215,46 +215,47 @@
 
     <!-- Plugin JavaScript -->
     <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>-->
-     <!--//<script src="js/classie.js"></script>-->
-     <!--//<script src="js/cbpAnimatedHeader.js"></script>-->
+    <!--//<script src="js/classie.js"></script>-->
+    <!--//<script src="js/cbpAnimatedHeader.js"></script>-->
 
     <!-- Contact Form JavaScript -->
-     <!--//<script src="js/jqBootstrapValidation.js"></script>-->
-     <!--//<script src="js/contact_me.js"></script>-->
+    <!--//<script src="js/jqBootstrapValidation.js"></script>-->
+    <!--//<script src="js/contact_me.js"></script>-->
 
     <!-- Custom Theme JavaScript -->
-     <!--//<script src="js/freelancer.js"></script>-->
+    <!--//<script src="js/freelancer.js"></script>-->
 
 </body>
 
 <template name="messages">
-  {{#each messages}}<li> {{time}} - <strong>{{name}}:</strong> {{message}} {{#if path}}<img src={{path}} width="50px" height="50px">{{/if}}</li>{{/each}}
-  <!--{{#each uploads}}<li> {{time}} - <strong> {{name}}:</strong><img src={{path}}></li>
+    {{#each messages}}
+    <li> {{time}} - <strong>{{name}}:</strong> {{message}} {{#if path}}<img src={{path}} width="50px" height="50px">{{/if}}</li>{{/each}}
+    <!--{{#each uploads}}<li> {{time}} - <strong> {{name}}:</strong><img src={{path}}></li>
   {{/each}}-->
-  <!--{{#each images}}<li> {{tijd}} - <strong>{{inlognaam}}:</strong> <img src={{this.url}} width="50px" height="50px"></li>{{/each}}-->
+    <!--{{#each images}}<li> {{tijd}} - <strong>{{inlognaam}}:</strong> <img src={{this.url}} width="50px" height="50px"></li>{{/each}}-->
 </template>
 
 <template name="clear">
-   <button type="button" class="btn btn-success btn-lg clear">Clear</button>
+    <button type="button" class="btn btn-success btn-lg clear">Clear</button>
 </template>
 
 <template name="users">
-  Current users: {{#each users}}
-  <li><strong>{{username}}</strong></li>
-  {{/each}}
+    Current users: {{#each users}}
+    <li><strong>{{username}}</strong></li>
+    {{/each}}
 </template>
 
 <template name="input">
- <input type="text" class="form-control" placeholder="Message" id="message" required data-validation-required-message="Please enter your name.">    
+    <input type="text" class="form-control" placeholder="Message" id="message" required data-validation-required-message="Please enter your name.">
 </template>
 
 <template name="images">
-        <span class="btn btn-default btn-lg btn-success filebutton">
+    <span class="btn btn-default btn-lg btn-success filebutton">
     <input multiple class="file fileInput" type="file">
     </span>
 </template>
 
- <template name="uploading">
+<template name="uploading">
     {{> upload_bootstrap }}
 </template>
 
@@ -270,4 +271,8 @@
 
 <template name="startchatting">
     <a href="#portfolio" class="Startchat">Start chatting</a>
+</template>
+
+<template name="chatty">
+    <a class="navbar-brand chatty" href="#page-top">Chatty</a>
 </template>

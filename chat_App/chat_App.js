@@ -8,14 +8,14 @@ if (Meteor.isClient) {
     Template.messages.helpers({
         messages: function () {
             return Messages.find({}, { sort: { time: -1 } });
-            
+
         },
 
         images: function () {
             return Images.find({}, { sort: { uploadedAt: -1 } });
         },
-        
-        
+
+
     });
 
     Template.users.helpers({
@@ -30,42 +30,45 @@ if (Meteor.isClient) {
         'change .fileInput': function (event, template) {
             FS.Utility.eachFile(event, function (file) {
                 var fileObj = new FS.File(file);
-                if(Meteor.user())
-                var naam = Meteor.user().username;
+                    if (Meteor.user())
+                    var naam = Meteor.user().username;
                 else
-                var naam = "Anonymous";
+                    var naam = "Anonymous";
                 Images.insert(fileObj, function (err) {
                     if (Meteor.user())
                         Meteor.call("UpdateImages");
                     else
                         Meteor.call("UpdateImages2");
-                        
-                var interval = Meteor.setInterval( function() {
-                    if (fileObj.hasStored('images')) {
-                    Messages.insert({
-                    path: '/cfs/files/images/' + fileObj._id,
-                    time: (new Date).toTimeString().substr(0,8),
-                    name: naam,
-                    })
-                    Meteor.clearInterval(interval);
-                    }
+
+                    var interval = Meteor.setInterval(function () {
+                        if (fileObj.hasStored('images')) {
+                            Messages.insert({
+                                path: '/cfs/files/images/' + fileObj._id,
+                                time: (new Date).toTimeString().substr(0, 8),
+                                name: naam,
+                            })
+                            Meteor.clearInterval(interval);
+                        }
                     }, 50);
-                   // Messages.insert({
-                    //path: '/cfs/files/images/' + fileObj._id,
-                    //time: (new Date).toTimeString().substr(0,8),
-                   // name: naam,
-                  // })
-               });
-            });   
+                });
+            });
         },
-       
+
     });
-    
+
     Template.startchatting.events({
-        'click .Startchat': function() {
-        $('html,body').animate({
-        scrollTop: $('#portfolio').offset().top
-        }, 1000);
+        'click .Startchat': function () {
+            $('html,body').animate({
+                scrollTop: $('#portfolio').offset().top
+            }, 1000);
+        }
+    });
+
+    Template.chatty.events({
+        'click .chatty': function () {
+            $('html,body').animate({
+                scrollTop: $('#page-top').offset().top
+            }, 1000);
         }
     });
 
@@ -109,29 +112,29 @@ if (Meteor.isClient) {
 
     Template.sendbutton.events({
         "click .send": function () {
-        if (Meteor.user())
-        var name = Meteor.user().username;
-        else
-        var name = 'Anonymous';
-        var message = document.getElementById('message');
-        if (message.value != '') {
-        Messages.insert({
-        name: name,
-        message: message.value,
-        time: (new Date).toTimeString().substr(0, 8),
-        });
+            if (Meteor.user())
+                var name = Meteor.user().username;
+            else
+                var name = 'Anonymous';
+            var message = document.getElementById('message');
+            if (message.value != '') {
+                Messages.insert({
+                    name: name,
+                    message: message.value,
+                    time: (new Date).toTimeString().substr(0, 8),
+                });
 
-        document.getElementById('message').value = '';
-        message.value = '';
-        }   
+                document.getElementById('message').value = '';
+                message.value = '';
+            }
         }
     });
     
-   // Template.messages.rendered = function () {
-       // Template.autorun(function () {
-        //var self = this;
-       // thisCampaign = Session.get('messages');
-        //})
+    // Template.messages.rendered = function () {
+    // Template.autorun(function () {
+    //var self = this;
+    // thisCampaign = Session.get('messages');
+    //})
     //};
 
 }
@@ -164,12 +167,6 @@ if (Meteor.isServer) {
             Images.remove({});
         },
 
-        IsAdmin: function () {
-            if (Meteor.user())
-                var username = Meteor.user().username;
-            if (username == "admin")
-                return true;
-        },
 
         findUser: function (username) {
             return Meteor.users.findOne({
@@ -192,13 +189,6 @@ if (Meteor.isServer) {
             Images.update({ uploadedAt: doc.uploadedAt }, { $set: { inlognaam: "Anonymous" } });
             Images.update({ uploadedAt: doc.uploadedAt }, { $set: { tijd: (new Date).toTimeString().substr(0, 8) } });
         },
-
-        JoinCollections: function () {
-            Messages.insert({
-            path: process.env.PWD,
-            time: (new Date).toTimeString().substr(0,8),
-            })
-        }
     });
 }     
        
