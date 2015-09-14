@@ -6,6 +6,8 @@
 
 body {
     overflow-x: hidden;
+    width: 100%;
+    height: 100%;
 }
 
 p {
@@ -458,9 +460,7 @@ footer .footer-below {
     opacity: 0;
 }
 
-.clear {
-    float: right;
-}
+
 
 .loginbutton{
 color: white;
@@ -477,11 +477,6 @@ color:white;
     max-height: 50px;
 }
 
-.msges {
-    margin:0 auto;
-    text-align: center;
-}
-
 li {
     list-style-position: inside;
 }
@@ -489,29 +484,22 @@ li {
 .alignright
 {
     float: right;
-    display: flex;
-    
+    margin-top: 5px; 
 }
 
-.aligncenter {
-    float:left;
-    display: flex;
-}
 
 .alignleft {
     float: left;
-    display: flex;
-    
+    margin-left: -40px;
+    margin-top: 5px;
 }
 
 .wrapper2 {
-    width: 800px;
-    clear: both;
-    display: flex;
+    width: 975px;     
+    margin-left: -130px;
 }
 
 .filebutton {
-    display: flex;
 }
 
 .bubble{
@@ -522,6 +510,7 @@ li {
     padding: 10px 18px;
     position: relative;
     vertical-align: top;
+    clear: both;
 }
 
 .bubble::before {
@@ -541,7 +530,7 @@ li {
 
 .me {
     float: left;
-    margin: 5px 45px 5px 20px;         
+    margin: 5px 45px 5px 100px;         
 }
 
 .me::before {
@@ -551,7 +540,7 @@ li {
 
 .you {   
     float: right;
-    margin: 5px 20px 5px 45px;         
+    margin: 5px 100px 5px 45px;         
 }
 
 .you::before {
@@ -560,14 +549,15 @@ li {
 }
 
 .msges {
-    width: 450px;   
+    width: 865px;   
     overflow: scroll;
-    height: 400px;
+    height: 475px;
+    background-color: rgba(210, 210, 210, 0.15);
 }
 
 ::-webkit-scrollbar {
-    height: 12px;
-    width: 12px;
+    width: 2px;
+    height: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -576,9 +566,90 @@ li {
     -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
 }
 
-::-webkit-scrollbar-corner {
-}
-
 .floatleft {
     float: left;
+    margin-left: -200px;
+    display: inline-block;
+}
+
+.message-container {
+    display: block;
+	margin: auto;
+	margin-top: 2.5%;
+	height: 620px; /*Global Height of Widget*/
+	width: 1000px; /*Global Width of Widget*/
+    
+}
+
+.btntemp {
+    display: block;
+	float: right;
+	margin-top: 5px;
+	height: 35px;
+	width: 80px;
+	color: #000000;
+	background: -webkit-linear-gradient(#F5F5F5, #E9E9E9);
+	background:    -moz-linear-gradient(#F5F5F5, #E9E9E9);
+	background:      -o-linear-gradient(#F5F5F5, #E9E9E9);
+	background:         linear-gradient(#F5F5F5, #E9E9E9);
+	border: 2px solid #CCC;
+	box-shadow: 0px 1px 2px #C6C6C6;
+	cursor: pointer;
+}
+
+
+.image-upload {
+    display: block;
+	float: right;
+	margin-top: 5px;
+    margin-left: 130px;
+	height: 50px;
+	width: 50px;
+    background: url(http://i.imgur.com/fYiHNFl.png) no-repeat;
+}
+
+
+.image-upload > input{
+   filter: alpha(opacity=0);
+   opacity: 0;
+}
+
+.labelinput {
+    width: 865px;
+    height: 145px;
+    position: absolute;
+    left: 0px;
+    top: 76.7%;
+    padding: 1%;
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+            border-top: 1px solid #F0F0F0;
+}
+
+.chatwindow {
+    display: block;
+	margin: auto;
+    position: relative;
+	margin-top: 2.5%;
+	height: 620px; /*Global Height of Widget*/
+	width: 1000px; /*Global Width of Widget*/
+
+    box-shadow:0 0 4px hsla(0, 0%, 20%, .7);
+}
+
+.userswindow {
+    position: absolute;
+    left : 865px;
+    right: 800px;
+    top: 0px;
+    height: 620px;
+    width: 135px;
+    box-shadow: -4px 0 3px -5px #666;
+    overflow: scroll;
+    background-color: rgba(210, 210, 210, 0.25);
+}
+
+.inputbox {
+    max-width: 855px;
 }

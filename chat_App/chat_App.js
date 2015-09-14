@@ -1,10 +1,10 @@
 Messages = new Meteor.Collection('messages');
-Usercollection = Meteor.users;
 Images = new FS.Collection("images", {
     stores: [new FS.Store.FileSystem("images")]
 });
 
 if (Meteor.isClient) {
+    
     Template.messages.helpers({
         messages: function () {
             return Messages.find({}, { sort: { time: -1 } });
@@ -20,9 +20,19 @@ if (Meteor.isClient) {
 
     Template.users.helpers({
         users: function () {
-            return Usercollection.find({}, { sort: { name: 1 } });
+            return UserPresences.find({state: "online"});
+            return Meteor.users();
         }
     });
+    
+    UserPresence.data = function() {
+    if(Meteor.user())
+    {
+    return {
+    name : Meteor.user(),
+    };
+    }
+    }
 
     Template.images.events({
         'change .fileInput': function (event, template) {
@@ -139,6 +149,12 @@ if (Meteor.isServer) {
             return true;
         }
     }),
+    
+    Meteor.publish('userPresence', function() {
+    // Example of using a filter to publish only "online" users:
+    var filter = {state: "online"};
+     return UserPresences.find(filter);
+    });
 
     Meteor.methods({
         ClearCollection: function () {

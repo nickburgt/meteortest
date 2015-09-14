@@ -31,6 +31,7 @@
 </head>
 
 <body id="page-top" class="index">
+    
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -87,22 +88,52 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <h2>Chat</h2>
+
+                    <div class='floatcenter' style="display: inline-block;">
+                    <h2 >Chat</h2>
                     <hr class="star-primary">
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12 text-center">
-
                     <div class="caption">
-                        <div class="caption-content">
-
-                        </div>
                     </div>
+                    <label class="chatwindow">
+                    <label class="userswindow">
+                    {{ > users}}
+                    </label>
+                    <div class="message-container">
                     <div class="msges">
                         {{> messages}}
                         <!--{{> uploads}}-->
                     </div>
+                    <label class="labelinput">
+                    <div class="inputbox">
+                    {{#if currentUser}}
+                    {{> input}}
+                    {{/if}}
+                    </div>
+                    <div class="form-group col-xs-12 btn-lg">
+                    <div class="wrapper2 btn-lg">
+                    {{#if currentUser}}
+                    {{> sendbutton}}
+                    <div class="alignleft">
+                    {{> images}}
+                    </div>
+                    <div class="">
+                    {{> clear}}
+                    </div> 
+                    {{else}}
+                    <div class="col-lg-12 text-center">
+                    <h1> Sorry, you need to be logged in to send a message!</h1>
+                    </div>
+                    {{/if}}
+                    </div>
+                    </div>
+                    </label>
+                    </div>
+                    </label>
                 </div>
             </div>
         </div>
@@ -113,10 +144,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
-                    <div id="messaging">
-                        <h2>Send a Message!</h2>
-                    </div>
-                    <hr class="star-primary">
+
                 </div>
             </div>
             <div class="row">
@@ -126,32 +154,13 @@
                     <form name="sentMessage" id="contactForm" novalidate>
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
-                                {{#if currentUser}}
-                                {{> input}}
-                                {{/if}}
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
                         <br>
                         <div id="success"></div>
                         <div class="row">
-                            <div class="form-group col-xs-12 btn-lg">
-                                <div class="wrapper2 btn-lg">
-                                    {{#if currentUser}}
-                                    {{> sendbutton}}
-                                    <div class="aligncenter">
-                                        {{> images}}
-                                    </div>
-                                    <div class="alignright">
-                                        {{> clear}}
-                                    </div> 
-                                    {{else}}
-                                    <div class="col-lg-12 text-center">
-                                   <h1> Sorry, you need to be logged in to send a message!</h1>
-                                   </div>
-                                    {{/if}}
-                                </div>
-                            </div>
+
                         </div>
                     </form>
                 </div>
@@ -239,22 +248,26 @@
     {{#each messages}}
     {{#if equals name currentUser.username}}
     <div class="bubble me">
-    {{time}} - <strong>{{name}}:</strong> {{message}} {{#if path}}<img src={{path}} width="50px" height="50px">{{/if}}</div><br>
+    {{time}} - <strong>{{name}} :</strong> <br>
+    {{message}} {{#if path}}<img src={{path}} width="50px" height="50px">{{/if}}</div><br>
     {{else}}
     <div class="bubble you">
-    {{time}} - <strong>{{name}}:</strong> {{message}} {{#if path}}<img src={{path}} width="50px" height="50px">{{/if}}</div><br>{{/if}}{{/each}}
-    <!--{{#each uploads}}<li> {{time}} - <strong> {{name}}:</strong><img src={{path}}></li>
-  {{/each}}-->
-    <!--{{#each images}}<li> {{tijd}} - <strong>{{inlognaam}}:</strong> <img src={{this.url}} width="50px" height="50px"></li>{{/each}}-->
+    {{time}} - <strong>{{name}}:</strong>  <br> {{message}} {{#if path}}<img src={{path}} width="50px" height="50px">{{/if}}</div>{{/if}}<br>{{/each}}
 </template>
 
 <template name="clear">
-    <button type="button" class="btn btn-success btn-lg clear">Clear</button>
+    {{#if equals "admin" currentUser.username}}
+    <button type="button" class="btntemp clear">Clear</button>
+    {{/if}}
 </template>
 
 <template name="users">
-    Current users: {{#each users}}
-    <li><strong>{{username}}</strong></li>
+    Current users: <br><br> 
+    {{#each users}}
+    {{#if data.name.username}}
+    <strong>{{data.name.username}}</strong><br>
+    {{else}}
+    {{/if}}
     {{/each}}
 </template>
 
@@ -263,9 +276,9 @@
 </template>
 
 <template name="images">
-    <span class="btn btn-default btn-lg btn-success filebutton">
-    <input multiple class="file fileInput" type="file">
-    </span>
+    <div class="image-upload">
+    <input multiple class="file fileInput" type="file" style="width:40px">
+    </div>
 </template>
 
 <template name="uploading">
@@ -273,14 +286,8 @@
 </template>
 
 <template name="sendbutton">
-    <button type="submit" onclick="return false" class="btn btn-success btn-lg alignleft send">Send</button>
+    <button type="submit" onclick="return false" class="btntemp send">Send</button>
 </template>
-
-<!--<template name="uploads">
-{{#each uploads}}
-<img src={{path}}>
-{{/each}} 
-</template>-->
 
 <template name="startchatting">
     <a href="#portfolio" class="Startchat">Start chatting</a>
@@ -291,7 +298,6 @@
 </template>
 
 <template name="divselect">
-     <!--{{#if currentUser}}<div class="bubble me">{{else}}<div class="bubble you">{{/if}}</div>-->
      {{#if currentUser}} 
     <span>Hey {{currentUser.profile.firstName}}!</span>
     {{else}}

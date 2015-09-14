@@ -22,3 +22,8 @@ tomi:upload-server
 tomi:upload-jquery
 cfs:ui
 perak:joins
+mizzao:user-status
+coffeescript
+mizzao:timesync
+tmeasday:presence
+dpid:user-presence
